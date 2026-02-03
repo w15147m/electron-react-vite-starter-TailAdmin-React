@@ -15,11 +15,12 @@ const NoteEditor = ({ note, onSave, onClose }) => {
     }
   }, [note]);
 
-  const handleSave = () => {
+  const handleSave = (directContent) => {
+    const finalContent = directContent !== undefined ? directContent : content;
     onSave({
       ...note,
       title,
-      content,
+      content: finalContent,
       status,
       date: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short' }),
     });
@@ -55,8 +56,8 @@ const NoteEditor = ({ note, onSave, onClose }) => {
           </div>
         </div>
 
-        <div className="px-8 pb-8 space-y-8 flex-1 flex flex-col">
-          <div className="grid grid-cols-2 gap-10">
+        <div className="px-8 pb-8 space-y-2 flex-1 flex flex-col">
+          <div className="grid grid-cols-2 gap-10 border border-gray-100 rounded-2xl p-2">
             <div className="group border-b border-gray-50 focus-within:border-brand-500 transition-colors pb-1">
               <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 group-focus-within:text-brand-500 transition-colors">Title</label>
               <input

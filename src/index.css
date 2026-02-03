@@ -303,19 +303,29 @@
   }
 }
 
-/* TinyMCE Consolidated Styling */
-div.tox-tinymce,
-div.tox-tinymce.tox-tinymce--focused,
-div.tox-tinymce:focus,
-div.tox-tinymce:focus-within {
-  border: 1px solid #f2f4f7 !important;
+/* NUCLEAR FIX: Kill the blue focus highlight once and for all */
+.tox-tinymce,
+.tox-tinymce.tox-tinymce--focused,
+.tox-tinymce:focus,
+.tox-tinymce:focus-within,
+.tox-tinymce--focused,
+.tox-tinymce.tox-tinymce--focused *,
+.tox .tox-edit-area__placeholder,
+.tox .tox-edit-area iframe {
+  border-color: #f2f4f7 !important;
   box-shadow: none !important;
   outline: none !important;
 }
 
-/* Force TinyMCE's internal variables to neutral */
-.tox-tinymce {
+.tox-tinymce:focus-within,
+.tox-tinymce--focused {
+  border-color: #f2f4f7 !important;
+}
+
+/* Force TinyMCE's internal variables to neutral globally */
+:root {
   --tox-color-border-focus: #f2f4f7 !important;
+  --tox-box-shadow-focus: none !important;
   --tox-border-width: 1px !important;
 }
 

@@ -12,7 +12,7 @@ const TinyMCEEditor = ({ value, onChange, onSave }) => {
         menubar: false,
         statusbar: false,
         plugins: 'lists link image charmap preview anchor searchreplace visualblocks code fullscreen insertdatetime media table code help wordcount',
-        toolbar: 'undo redo | bold italic h2 blockquote | bullist numlist | link image | advancedMore | customSave',
+        toolbar: 'undo redo  bold italic h2 blockquote  bullist numlist    advancedMore  customSave',
         toolbar_mode: 'wrap',
         toolbar_location: 'bottom',
         content_style: `
@@ -29,34 +29,17 @@ const TinyMCEEditor = ({ value, onChange, onSave }) => {
         setup: (editor) => {
           editorRef.current = editor;
           
-          editor.on('Change', () => {
+          editor.on('Change KeyUp input', () => {
             onChange(editor.getContent());
           });
-
-          // Advanced dropdown button
-          editor.ui.registry.addMenuButton('advancedMore', {
-            icon: 'more-drawer',
-            tooltip: 'More options',
-            fetch: function (callback) {
-              const items = [
-                { type: 'menuitem', text: 'Underline', icon: 'underline', onAction: () => editor.execCommand('Underline') },
-                { type: 'menuitem', text: 'Strikethrough', icon: 'strike-through', onAction: () => editor.execCommand('Strikethrough') },
-                { type: 'separator' },
-                { type: 'menuitem', text: 'Align Left', icon: 'align-left', onAction: () => editor.execCommand('JustifyLeft') },
-                { type: 'menuitem', text: 'Align Center', icon: 'align-center', onAction: () => editor.execCommand('JustifyCenter') },
-                { type: 'menuitem', text: 'Align Right', icon: 'align-right', onAction: () => editor.execCommand('JustifyRight') },
-                { type: 'separator' },
-                { type: 'menuitem', text: 'Clear Formatting', icon: 'remove-formatting', onAction: () => editor.execCommand('RemoveFormat') }
-              ];
-              callback(items);
-            }
-          });
-
+          
           // Custom Save Button
           editor.ui.registry.addButton('customSave', {
             text: 'Save',
             onAction: function () {
-              onSave();
+              const currentContent = editor.getContent();
+              onChange(currentContent);
+              onSave(currentContent);
             }
           });
         },
