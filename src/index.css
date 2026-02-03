@@ -303,30 +303,42 @@
   }
 }
 
-/* NUCLEAR FIX: Kill the blue focus highlight once and for all */
+/* TOTAL BLACKOUT: Kill every possible blue highlight on TinyMCE */
 .tox-tinymce,
+.tox-tinymce-container,
 .tox-tinymce.tox-tinymce--focused,
 .tox-tinymce:focus,
 .tox-tinymce:focus-within,
 .tox-tinymce--focused,
 .tox-tinymce.tox-tinymce--focused *,
-.tox .tox-edit-area__placeholder,
-.tox .tox-edit-area iframe {
+.tox .tox-edit-area__placeholder {
   border-color: #f2f4f7 !important;
   box-shadow: none !important;
   outline: none !important;
+  border-width: 1px !important;
 }
 
-.tox-tinymce:focus-within,
-.tox-tinymce--focused {
+.tox .tox-edit-area iframe,
+.tox .tox-edit-area iframe:focus,
+.tox .tox-edit-area iframe:focus-within {
   border-color: #f2f4f7 !important;
+  box-shadow: none !important;
+  outline: none !important;
+  border-width: 0 !important;
+  --tox-color-border-focus: #f2f4f7 !important;
+  --tox-box-shadow-focus: none !important;
 }
 
-/* Force TinyMCE's internal variables to neutral globally */
-:root {
+/* Force TinyMCE variables at every engine level */
+:root,
+body,
+.tox,
+.tox-tinymce,
+.tox-tinymce-container {
   --tox-color-border-focus: #f2f4f7 !important;
   --tox-box-shadow-focus: none !important;
   --tox-border-width: 1px !important;
+  --tox-outline-width: 0px !important;
 }
 
 .tox .tox-editor-header {
