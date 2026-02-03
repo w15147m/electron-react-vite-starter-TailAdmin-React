@@ -2,50 +2,31 @@
 
 ---
 
-This repository provides a  starter template for building **desktop applications with Electron, React, and Vite**. It's set up using **Electron Forge's official Vite template**, offering a fast and efficient development experience with hot-reloading and optimized bundling as shown in the following [Tutorial](https://youtu.be/XmSQtyPjbxY).
-
-
-## Watch the Tutorial on Youtube:
-
-## [![Tutorial](https://img.youtube.com/vi/XmSQtyPjbxY/0.jpg)](https://youtu.be/XmSQtyPjbxY)
-
-A step‑by‑step video walkthrough demonstrating how to scaffold the project, integrate React via Vite, and push to GitHub.
+This repository provides a premium starter template for building **modern desktop applications with Electron, React 19, and Vite 5**. It is styled with **Tailwind CSS v4** and set up using **Electron Forge's official Vite template**, offering a fast and efficient development experience with hot-reloading and optimized bundling.
 
 ## Features
 
-* **Electron Forge:** Official and opinionated tool for creating, building, and packaging Electron apps.
-* **React:** A popular JavaScript library for building user interfaces.
-* **Vite:** A next-generation frontend tooling that provides an incredibly fast development server and optimized build process.
-* **Hot-Reloading:** Enjoy instant feedback on your UI changes during development.
-* **JSX Support:** Ready to write React components with JSX out-of-the-box.
-* **Renderer and Main Process Separation:** Clear structure for Electron's multi-process architecture.
-* **Secure Preload Script:** Demonstrates a safe way to expose APIs from the main process to the renderer.
+*   **Electron 36:** Latest stable version of Electron.
+*   **React 19:** Utilizing the latest features of React for UI development.
+*   **Vite 5:** Next-generation frontend tooling for ultra-fast development.
+*   **Tailwind CSS v4:** Modern CSS framework for rapid UI styling.
+*   **Electron Forge:** Official tool for creating, building, and packaging Electron apps.
+*   **Hot-Reloading:** Instant feedback on UI changes during development.
+*   **Secure Preload Script:** Best practices for IPC communication.
 
 ---
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
-
 ### Prerequisites
 
-Make sure you have Node.js and npm (Node Package Manager) installed on your system.
-
-* **Node.js:** Version 16.4.0 or higher.
-    You can check your Node.js version with:
-    ```bash
-    node -v
-    ```
-* **npm:**
-    Verify npm installation with:
-    ```bash
-    npm -v
-    ```
+*   **Node.js:** Version 18.0.0 or higher.
+*   **npm:** Version 9.0.0 or higher.
 
 ### Installation
 
 1.  **Clone the repository:**
-    ```
+    ```bash
     git clone https://github.com/PikoCanFly/electron-react-vite-starter-project
     ```
 
@@ -63,10 +44,43 @@ Make sure you have Node.js and npm (Node Package Manager) installed on your syst
 
 ## Usage
 
-### Running the Application
+### Development
 
-To start the Electron application in development mode:
+To start the Electron application in development mode with HMR:
 
 ```bash
 npm start
+```
+
+### Packaging
+
+To bundle the application for your current platform:
+
+```bash
+npm run package
+```
+
+### Creating Installers
+
+To generate platform-specific installers (e.g., .deb, .rpm, .exe, .zip):
+
+```bash
+npm run make
+```
+
+---
+
+## Project Structure
+
+```text
+├── src/
+│   ├── main.js        # Electron Main process
+│   ├── preload.js     # IPC and window isolation
+│   ├── renderer.jsx   # React application entry
+│   ├── index.css      # Global Tailwind v4 styles
+│   ├── common/        # Shared components and logic
+│   └── components/    # Page-specific components
+├── react-ui-ket/      # Reference UI Kit project
+├── forge.config.js    # Electron Forge configuration
+└── vite.*.config.mjs  # Vite configurations
 ```
