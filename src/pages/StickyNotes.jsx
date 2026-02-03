@@ -78,7 +78,7 @@ const StickyNotes = () => {
   );
 
   return (
-    <div className="h-screen bg-white font-outfit border border-gray-200 overflow-hidden flex flex-col shadow-none rounded-none">
+    <div className="h-screen bg-white font-outfit border border-gray-200 overflow-hidden flex flex-col shadow-none rounded-3xl">
       {/* Header / Search Bar */}
       <div 
         className="p-6 border-b border-gray-100 flex items-center gap-4 bg-white z-10"

@@ -1,132 +1,228 @@
+``
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Dashboard</title>
-    <script src="https://cdn.tiny.cloud/1/api-key/tinymce/8/tinymce.min.js" referrerpolicy="origin" crossorigin="anonymous"></script>
+    <title>TinyMCE Bottom Toolbar</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.2/tinymce.min.js"></script>
     <style>
-        :root {
-            --primary-bg: #1a1a1a;
-            --secondary-bg: #2a2a2a;
-            --accent-blue: #4a9eff;
-            --text-primary: #ffffff;
-            --border-color: #444;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background-color: var(--primary-bg);
-            color: var(--text-primary);
-            line-height: 1.6;
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #f5f5f5;
         }
 
-        .header {
-            background-color: var(--secondary-bg);
-            padding: 1rem 2rem;
-            border-bottom: 1px solid var(--border-color);
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
         }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 20px;
         }
 
-        .logo span {
-            color: var(--accent-blue);
+        /* Custom styles to move toolbar to bottom */
+        .tox-tinymce {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
         }
 
-        .main-container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 2rem;
+        .tox .tox-editor-header {
+            order: 2;
+            border-top: 1px solid #e0e0e0;
+            border-bottom: none;
+            padding: 8px;
         }
 
-        h1 {
-            margin-bottom: 1.5rem;
-            color: var(--text-primary);
-        }
-
-        .add-asset-form {
+        .tox .tox-sidebar-wrap {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
-            background-color: var(--secondary-bg);
-            padding: 2rem;
-            border-radius: 8px;
         }
 
-        button[type="submit"] {
-            padding: 0.75rem 2rem;
-            background-color: var(--accent-blue);
+        .save-btn {
+            background: #7c3aed;
             color: white;
             border: none;
-            border-radius: 5px;
-            font-size: 1rem;
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
             cursor: pointer;
-            transition: opacity 0.2s;
+            margin-left: 8px;
         }
 
-        button[type="submit"]:hover {
-            opacity: 0.9;
+        .save-btn:hover {
+            background: #6d28d9;
+        }
+
+        .toolbar-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
         }
     </style>
 </head>
 
 <body>
-    <header class="header">
-        <div class="logo">Admin<span>Dashboard</span></div>
-    </header>
-
-    <main class="main-container">
-        <h1>Create New Post</h1>
-
-        <form id="post-form" class="add-asset-form">
-            <textarea id="content"></textarea>
-            <button type="submit">Save Post</button>
-        </form>
-    </main>
+    <div class="container">
+        <h2>Text Editor with Bottom Toolbar</h2>
+        <div id="editor-container">
+            <textarea id="myeditor" placeholder="Enter Text......"></textarea>
+        </div>
+    </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            let pluginsDefault = "preview importcss searchreplace autolink save directionality code visualblocks visualchars fullscreen image link media codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons";
-            let menubarDefault = "file edit view insert format tools table help";
-            let toolbar1Default = "undo redo accordion accordionremove fontfamily fontsize bold italic underline strikethrough align numlist bullist lineheight outdent indent link image media forecolor backcolor table removeformat pagebreak anchor ltr rtl charmap emoticons codesample code fullscreen preview print";
+        tinymce.init({
+            selector: '#myeditor',
+            height: 300,
+            menubar: false,
+            statusbar: false,
 
-            let pluginsMinimal = "preview importcss searchreplace autolink save directionality code visualblocks visualchars fullscreen image link media codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons";
-            let menubarMinimal = "";
-            let toolbarMinimal = "| fontsize alignleft aligncenter alignright alignjustify bullist numlist outdent indent ltr rtl bold italic forecolor backcolor strikethrough link image table charmap emoticons codesample fullscreen preview";
+            plugins: 'lists link image',
 
-            tinymce.init({
-                selector: '#content',
-                height: 500,
-                menubar: menubarDefault,
-                statusbar: false,
-                toolbar_location: 'bottom',
-                plugins: pluginsDefault,
-                toolbar: toolbar1Default,
-                content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
-            });
+            // Toolbar with only the buttons from your image
+            toolbar: 'bold italic h2 blockquote | bullist numlist | link image | advancedMore | customSave',
 
-            const form = document.getElementById('post-form');
+            toolbar_mode: 'wrap',
+            toolbar_location: 'bottom',
 
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
+            placeholder: 'Enter Text......',
 
-                const content = tinymce.get('content').getContent();
-                console.log('Content:', content);
+            setup: function (editor) {
 
-                alert('Content saved! Check console for output.');
-            });
+                // Advanced dropdown button (like in image 2)
+                editor.ui.registry.addMenuButton('advancedMore', {
+                    icon: 'more-drawer',
+                    tooltip: 'More options',
+                    fetch: function (callback) {
+                        const items = [
+                            {
+                                type: 'menuitem',
+                                text: 'Underline',
+                                icon: 'underline',
+                                onAction: function () {
+                                    editor.execCommand('Underline');
+                                }
+                            },
+                            {
+                                type: 'menuitem',
+                                text: 'Strikethrough',
+                                icon: 'strike-through',
+                                onAction: function () {
+                                    editor.execCommand('Strikethrough');
+                                }
+                            },
+                            {
+                                type: 'separator'
+                            },
+                            {
+                                type: 'menuitem',
+                                text: 'Align Left',
+                                icon: 'align-left',
+                                onAction: function () {
+                                    editor.execCommand('JustifyLeft');
+                                }
+                            },
+                            {
+                                type: 'menuitem',
+                                text: 'Align Center',
+                                icon: 'align-center',
+                                onAction: function () {
+                                    editor.execCommand('JustifyCenter');
+                                }
+                            },
+                            {
+                                type: 'menuitem',
+                                text: 'Align Right',
+                                icon: 'align-right',
+                                onAction: function () {
+                                    editor.execCommand('JustifyRight');
+                                }
+                            },
+                            {
+                                type: 'separator'
+                            },
+                            {
+                                type: 'menuitem',
+                                text: 'Text Color',
+                                icon: 'color-picker',
+                                onAction: function () {
+                                    const color = prompt('Enter color (e.g., #7c3aed, red):');
+                                    if (color) {
+                                        editor.execCommand('ForeColor', false, color);
+                                    }
+                                }
+                            },
+                            {
+                                type: 'menuitem',
+                                text: 'Highlight',
+                                icon: 'highlight-bg-color',
+                                onAction: function () {
+                                    const color = prompt('Enter highlight color (e.g., yellow, #ffeb3b):');
+                                    if (color) {
+                                        editor.execCommand('HiliteColor', false, color);
+                                    }
+                                }
+                            },
+                            {
+                                type: 'separator'
+                            },
+                            {
+                                type: 'menuitem',
+                                text: 'Clear Formatting',
+                                icon: 'remove-formatting',
+                                onAction: function () {
+                                    editor.execCommand('RemoveFormat');
+                                }
+                            }
+                        ];
+                        callback(items);
+                    }
+                });
+
+                // Custom Save Button
+                editor.ui.registry.addButton('customSave', {
+                    text: 'Save',
+                    onAction: function () {
+                        const content = editor.getContent();
+                        console.log('Saved content:', content);
+                        alert('Content saved!\n\n' + content);
+                    }
+                });
+            },
+
+            // Custom styling
+            content_style: `
+                body {
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                    font-size: 15px;
+                    line-height: 1.6;
+                    padding: 15px;
+                    color: #333;
+                }
+                body::before {
+                    content: 'Enter Text......';
+                    color: #999;
+                    position: absolute;
+                    pointer-events: none;
+                }
+                body:focus::before {
+                    content: '';
+                }
+            `
         });
     </script>
 </body>
 
 </html>
+```

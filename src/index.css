@@ -1,5 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap")
-layer(base);
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap") layer(base);
 
 @import "tailwindcss";
 
@@ -174,6 +173,7 @@ layer(base);
   color utility to any element that depends on these defaults.
 */
 @layer base {
+
   *,
   ::after,
   ::before,
@@ -181,12 +181,14 @@ layer(base);
   ::file-selector-button {
     border-color: var(--color-gray-200, currentColor);
   }
+
   button:not(:disabled),
   [role="button"]:not(:disabled) {
     cursor: pointer;
   }
+
   body {
-    @apply relative font-normal font-outfit z-1 bg-gray-50;
+    @apply relative font-normal font-outfit z-1 bg-transparent;
     margin: 0;
     overflow: hidden;
   }
@@ -257,14 +259,20 @@ layer(base);
 @utility menu-dropdown-badge-inactive {
   @apply bg-brand-50 group-hover:bg-brand-100 dark:bg-brand-500/15 dark:group-hover:bg-brand-500/20;
 }
+
 @utility no-scrollbar {
+
   /* Chrome, Safari and Opera */
   &::-webkit-scrollbar {
     display: none;
   }
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
+
 @utility custom-scrollbar {
   &::-webkit-scrollbar {
     @apply size-1.5;
@@ -278,11 +286,13 @@ layer(base);
     @apply bg-gray-200 rounded-full dark:bg-gray-700;
   }
 }
+
 .dark .custom-scrollbar::-webkit-scrollbar-thumb {
   background-color: #344054;
 }
 
 @layer utilities {
+
   /* For Remove Date Icon */
   input[type="date"]::-webkit-inner-spin-button,
   input[type="time"]::-webkit-inner-spin-button,
@@ -291,4 +301,60 @@ layer(base);
     display: none;
     -webkit-appearance: none;
   }
+}
+
+/* TinyMCE Consolidated Styling */
+.tox-tinymce {
+  @apply border border-gray-100 rounded-3xl overflow-hidden bg-white shadow-sm transition-shadow duration-300;
+  border: 1px solid #f2f4f7 !important;
+}
+
+.tox-tinymce:focus-within {
+  @apply shadow-theme-lg;
+  border-color: var(--color-brand-200) !important;
+}
+
+.tox .tox-editor-header {
+  @apply flex flex-col order-2 bg-white px-2 py-1 border-t border-gray-50;
+  border-top: 1px solid #f9fafb !important;
+}
+
+.tox .tox-toolbar__primary {
+  @apply bg-transparent justify-between items-center px-4;
+}
+
+.tox .tox-toolbar__group {
+  @apply p-0 border-none;
+}
+
+/* Custom Save Button within TinyMCE Toolbar */
+.tox button[aria-label="Save"] {
+  @apply !bg-brand-500 !text-white !rounded-xl !font-bold !px-6 !h-9 !transition-all !cursor-pointer;
+  border: none !important;
+}
+
+.tox button[aria-label="Save"]:hover {
+  @apply !bg-brand-600 !shadow-theme-md;
+}
+
+.tox button[aria-label="Save"]:active {
+  @apply !bg-brand-700 !scale-95;
+}
+
+.tox button[aria-label="Save"] .tox-tbtn__select-label {
+  @apply !text-white !text-theme-sm;
+}
+
+/* More drawer / dropdown styling */
+.tox .tox-tbtn {
+  @apply !rounded-lg !mx-0.5 !transition-colors;
+}
+
+/* Placeholder & Content Area */
+.tox .tox-edit-area__placeholder {
+  @apply !text-gray-300 !not-italic !top-6 !left-6;
+}
+
+.tox .tox-edit-area iframe {
+  @apply bg-transparent;
 }
