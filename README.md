@@ -14,6 +14,9 @@ This repository provides a premium starter template for building **modern deskto
 *   **Hot-Reloading:** Instant feedback on UI changes during development.
 *   **Secure Preload Script:** Best practices for IPC communication.
 
+
+
+
 ---
 
 ## Getting Started
