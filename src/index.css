@@ -304,14 +304,19 @@
 }
 
 /* TinyMCE Consolidated Styling */
-.tox-tinymce {
-  @apply border border-gray-100 rounded-3xl overflow-hidden bg-white shadow-sm transition-shadow duration-300;
+div.tox-tinymce,
+div.tox-tinymce.tox-tinymce--focused,
+div.tox-tinymce:focus,
+div.tox-tinymce:focus-within {
   border: 1px solid #f2f4f7 !important;
+  box-shadow: none !important;
+  outline: none !important;
 }
 
-.tox-tinymce:focus-within {
-  @apply shadow-theme-lg;
-  border-color: var(--color-brand-200) !important;
+/* Force TinyMCE's internal variables to neutral */
+.tox-tinymce {
+  --tox-color-border-focus: #f2f4f7 !important;
+  --tox-border-width: 1px !important;
 }
 
 .tox .tox-editor-header {
@@ -369,13 +374,6 @@
   transition: background-color 0.2s !important;
 }
 
-/* Placeholder & Content Area Spacing */
-.tox .tox-edit-area__placeholder {
-  @apply not-italic;
-  color: #98a2b3 !important;
-  top: 8px !important;
-  left: 16px !important;
-}
 
 .tox .tox-edit-area iframe {
   @apply bg-transparent;

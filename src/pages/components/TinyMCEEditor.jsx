@@ -15,14 +15,13 @@ const TinyMCEEditor = ({ value, onChange, onSave }) => {
         toolbar: 'undo redo | bold italic h2 blockquote | bullist numlist | link image | advancedMore | customSave',
         toolbar_mode: 'wrap',
         toolbar_location: 'bottom',
-        placeholder: 'Enter Text......',
         content_style: `
           @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap');
           body { 
             font-family: Outfit, sans-serif; 
             font-size: 15px; 
             line-height: 1.5;
-            padding: 4px 16px; 
+            padding: 5px 10px; 
             color: #333;
             margin: 0;
           }
