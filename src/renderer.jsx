@@ -1,11 +1,11 @@
 import { createRoot } from 'react-dom/client';
-import Hello from './components/Hello';
+import StickyNotes from './pages/StickyNotes';
 import './index.css';
 
 const App = () =>{
     return (
         <>
-        <Hello/>
+            <StickyNotes />
         </>
     )
 };
