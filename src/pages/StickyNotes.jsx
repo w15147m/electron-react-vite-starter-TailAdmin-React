@@ -78,77 +78,76 @@ const StickyNotes = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 font-outfit p-6 flex items-center justify-center">
-      <div className="bg-white rounded-3xl shadow-theme-xl max-w-2xl w-full border border-gray-200 overflow-hidden">
-        {/* Header / Search Bar */}
-        <div className="p-6 border-b border-gray-100 flex items-center gap-4">
-          <div className="relative flex-1">
-            <input 
-              type="text" 
-              placeholder="Search title . . ." 
-              className="w-full pl-10 pr-12 py-3 bg-gray-50 rounded-xl border-none focus:ring-2 focus:ring-brand-500 outline-none text-theme-sm"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <svg className="absolute left-3 top-1/2 -translate-y-1/2 size-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 bg-white p-1 rounded-lg border border-gray-200 cursor-pointer hover:bg-gray-50">
-               <svg className="size-4 text-brand-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-               </svg>
-            </div>
+    <div className="h-screen bg-white font-outfit border border-gray-200 overflow-hidden flex flex-col shadow-none rounded-none">
+      {/* Header / Search Bar */}
+      <div 
+        className="p-6 border-b border-gray-100 flex items-center gap-4 bg-white z-10"
+        style={{ WebkitAppRegion: 'drag' }}
+      >
+        <div className="relative flex-1" style={{ WebkitAppRegion: 'no-drag' }}>
+          <input 
+            type="text" 
+            placeholder="Search title . . ." 
+            className="w-full pl-10 pr-12 py-3 bg-gray-50 rounded-xl border-none focus:ring-2 focus:ring-brand-500 outline-none text-theme-sm"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <svg className="absolute left-3 top-1/2 -translate-y-1/2 size-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <div className="absolute right-3 top-1/2 -translate-y-1/2 bg-white p-1 rounded-lg border border-gray-200 cursor-pointer hover:bg-gray-50">
+             <svg className="size-4 text-brand-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+             </svg>
           </div>
-          
-          <button className="p-3 bg-white border border-brand-200 rounded-xl text-brand-500 hover:bg-brand-50 shadow-theme-sm transition-colors">
+        </div>
+        
+        <button 
+          className="p-3 bg-white border border-brand-200 rounded-xl text-brand-500 hover:bg-brand-50 shadow-theme-sm transition-colors"
+          style={{ WebkitAppRegion: 'no-drag' }}
+        >
+          <svg className="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+          </svg>
+        </button>
+
+        <div className="flex items-center gap-2" style={{ WebkitAppRegion: 'no-drag' }}>
+          <button onClick={handleAddNote} className="p-2 text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
             <svg className="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
             </svg>
           </button>
+          <button className="p-2 text-gray-900 hover:bg-gray-100 rounded-lg transition-colors" onClick={() => window.close()}>
+            <svg className="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </div>
 
-          <div className="flex items-center gap-2">
-            <button onClick={handleAddNote} className="p-2 text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
-              <svg className="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-              </svg>
-            </button>
-            <button className="p-2 text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
-              <svg className="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-              </svg>
-            </button>
-            <button className="p-2 text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
-              <svg className="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
+      {/* Note List */}
+      <div className="p-6 space-y-4 flex-1 overflow-y-auto custom-scrollbar bg-gray-50/50">
+        {filteredNotes.length > 0 ? (
+          filteredNotes.map(note => (
+            <NoteCard 
+              key={note.id} 
+              note={note} 
+              onEdit={handleEditNote} 
+              onDelete={handleDeleteNote} 
+            />
+          ))
+        ) : (
+          <div className="text-center py-12">
+            <p className="text-gray-400">No notes found matching your search.</p>
           </div>
-        </div>
+        )}
+      </div>
 
-        {/* Note List */}
-        <div className="p-6 space-y-4 max-h-[500px] overflow-y-auto custom-scrollbar">
-          {filteredNotes.length > 0 ? (
-            filteredNotes.map(note => (
-              <NoteCard 
-                key={note.id} 
-                note={note} 
-                onEdit={handleEditNote} 
-                onDelete={handleDeleteNote} 
-              />
-            ))
-          ) : (
-            <div className="text-center py-12">
-              <p className="text-gray-400">No notes found matching your search.</p>
-            </div>
-          )}
-        </div>
-
-        {/* Footer */}
-        <div className="p-6 border-t border-gray-100 flex justify-end items-center">
-          <p className="text-theme-sm font-medium text-gray-900">
-            {filteredNotes.length} records
-          </p>
-        </div>
+      {/* Footer */}
+      <div className="p-6 border-t border-gray-100 flex justify-end items-center bg-white">
+        <p className="text-theme-sm font-medium text-gray-900">
+          {filteredNotes.length} records
+        </p>
       </div>
 
       {isEditorOpen && (
