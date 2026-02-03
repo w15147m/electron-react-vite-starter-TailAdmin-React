@@ -328,31 +328,53 @@
 }
 
 /* Custom Save Button within TinyMCE Toolbar */
-.tox button[aria-label="Save"] {
-  @apply !bg-brand-500 !text-white !rounded-xl !font-bold !px-6 !h-9 !transition-all !cursor-pointer;
+.tox .tox-tbtn[aria-label="Save"] {
+  background: #465fff !important;
+  color: white !important;
+  border-radius: 12px !important;
+  font-weight: 700 !important;
+  padding: 0 24px !important;
+  height: 36px !important;
+  width: auto !important;
+  min-width: 80px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.2s ease !important;
+  cursor: pointer !important;
   border: none !important;
+  margin-left: 10px !important;
 }
 
-.tox button[aria-label="Save"]:hover {
-  @apply !bg-brand-600 !shadow-theme-md;
+.tox .tox-tbtn[aria-label="Save"] .tox-tbtn__select-label {
+  color: white !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
 }
 
-.tox button[aria-label="Save"]:active {
-  @apply !bg-brand-700 !scale-95;
+.tox .tox-tbtn[aria-label="Save"]:hover {
+  background: #3641f5 !important;
+  box-shadow: 0 4px 12px rgba(70, 95, 255, 0.25) !important;
 }
 
-.tox button[aria-label="Save"] .tox-tbtn__select-label {
-  @apply !text-white !text-theme-sm;
+.tox .tox-tbtn[aria-label="Save"]:active {
+  background: #2a31d8 !important;
+  transform: scale(0.95) !important;
 }
 
 /* More drawer / dropdown styling */
 .tox .tox-tbtn {
-  @apply !rounded-lg !mx-0.5 !transition-colors;
+  border-radius: 8px !important;
+  margin: 0 2px !important;
+  transition: background-color 0.2s !important;
 }
 
-/* Placeholder & Content Area */
+/* Placeholder & Content Area Spacing */
 .tox .tox-edit-area__placeholder {
-  @apply !text-gray-300 !not-italic !top-6 !left-6;
+  @apply not-italic;
+  color: #98a2b3 !important;
+  top: 8px !important;
+  left: 16px !important;
 }
 
 .tox .tox-edit-area iframe {

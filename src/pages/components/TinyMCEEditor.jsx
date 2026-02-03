@@ -17,12 +17,14 @@ const TinyMCEEditor = ({ value, onChange, onSave }) => {
         toolbar_location: 'bottom',
         placeholder: 'Enter Text......',
         content_style: `
+          @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap');
           body { 
             font-family: Outfit, sans-serif; 
             font-size: 15px; 
-            line-height: 1.6;
-            padding: 20px; 
+            line-height: 1.5;
+            padding: 4px 16px; 
             color: #333;
+            margin: 0;
           }
         `,
         setup: (editor) => {
