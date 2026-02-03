@@ -1,5 +1,6 @@
 import { app, BrowserWindow, Menu } from 'electron';
 import path from 'node:path';
+import fs from 'node:fs';
 import started from 'electron-squirrel-startup';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -10,17 +11,58 @@ if (started) {
 // Remove the default menu
 Menu.setApplicationMenu(null);
 
+const WINDOW_STATE_PATH = path.join(app.getPath('userData'), 'window-state.json');
+
+const loadWindowState = () => {
+  try {
+    if (fs.existsSync(WINDOW_STATE_PATH)) {
+      const data = JSON.parse(fs.readFileSync(WINDOW_STATE_PATH, 'utf8'));
+      return data;
+    }
+  } catch (err) {
+    console.error('Failed to load window state:', err);
+  }
+  return { width: 430, height: 500 }; // Default size
+};
+
+const saveWindowState = (window) => {
+  if (!window || window.isDestroyed()) return;
+  try {
+    const bounds = window.getBounds();
+    fs.writeFileSync(WINDOW_STATE_PATH, JSON.stringify(bounds));
+  } catch (err) {
+    console.error('Failed to save window state:', err);
+  }
+};
+
+let mainWindow;
+
 const createWindow = () => {
+  const windowState = loadWindowState();
+
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
-    width: 600,
-    height: 800,
+  mainWindow = new BrowserWindow({
+    x: windowState.x,
+    y: windowState.y,
+    width: 430,
+    height: 500,
     frame: false,
     transparent: true,
+    backgroundColor: '#00000000', // Ensure transparency works well
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
   });
+
+  // Save window state on move with a small debounce/delay
+  let saveTimeout;
+  const save = () => {
+    clearTimeout(saveTimeout);
+    saveTimeout = setTimeout(() => saveWindowState(mainWindow), 500);
+  };
+  
+  mainWindow.on('move', save);
+  mainWindow.on('resize', save);
 
   // and load the index.html of the app.
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
@@ -55,6 +97,10 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
   }
+});
+
+app.on('before-quit', () => {
+  saveWindowState(mainWindow);
 });
 
 // In this file you can include the rest of your app's specific main process
