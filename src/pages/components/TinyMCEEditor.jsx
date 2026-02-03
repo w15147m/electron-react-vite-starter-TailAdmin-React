@@ -11,8 +11,8 @@ const TinyMCEEditor = ({ value, onChange, onSave }) => {
         height: 380,
         menubar: false,
         statusbar: false,
-        plugins: 'lists link image charmap preview anchor searchreplace visualblocks code fullscreen insertdatetime media table code help wordcount',
-        toolbar: '  bold italic h2 blockquote  bullist numlist    advancedMore  customSave',
+        plugins: 'preview importcss searchreplace autolink  save directionality code visualblocks visualchars fullscreen image link media codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons',
+        toolbar: 'bold  italic alignleft aligncenter alignright bullist numlist    advancedMore  customSave',
         toolbar_mode: 'wrap',
         toolbar_location: 'bottom',
         content_style: `
