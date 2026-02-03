@@ -78,10 +78,12 @@ const StickyHeader = ({
           </svg>
         </button>
         <button 
-          className="px-1.5 py-0.5 text-gray-900 font-bold text-base leading-none hover:bg-gray-100 rounded-lg transition-colors focus:outline-none" 
+          className="p-0.5 text-gray-900 hover:bg-gray-100 rounded-lg transition-colors focus:outline-none" 
           onClick={onMinimize}
         >
-          -
+          <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <rect x="5" y="5" width="14" height="14" rx="2" strokeWidth={2} />
+          </svg>
         </button>
         <button className="p-0.5 text-gray-900 hover:bg-red-50 hover:text-red-600 rounded-lg transition-all focus:outline-none" onClick={onClose}>
           <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

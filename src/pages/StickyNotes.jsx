@@ -11,6 +11,7 @@ const StickyNotes = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
   const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
+  const [isMini, setIsMini] = useState(false);
 
   // Load notes from localStorage
   useEffect(() => {
@@ -80,12 +81,35 @@ const StickyNotes = () => {
     setStatusFilter('All');
   };
 
+  const handleToggleMini = () => {
+    const newMini = !isMini;
+    setIsMini(newMini);
+    if (window.electron && window.electron.toggleMiniMode) {
+      window.electron.toggleMiniMode(newMini);
+    }
+  };
+
   const filteredNotes = notes.filter(note => {
     const matchesSearch = note.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          note.content.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesStatus = statusFilter === 'All' || note.status === statusFilter;
     return matchesSearch && matchesStatus;
   });
+
+  if (isMini) {
+    return (
+      <div 
+        onClick={handleToggleMini}
+        className="w-8 h-16 bg-brand-500 rounded-l-xl flex items-center justify-center cursor-pointer shadow-2xl hover:bg-brand-600 transition-all border-y border-l border-white/20 group animate-in slide-in-from-right duration-300"
+        title="Open Sticky Notes"
+        style={{ WebkitAppRegion: 'no-drag' }}
+      >
+        <svg className="size-5 text-white opacity-80 group-hover:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+        </svg>
+      </div>
+    );
+  }
 
   return (
     <div className="h-screen bg-white font-outfit border border-gray-200 overflow-hidden flex flex-col shadow-none rounded-3xl text-gray-900">
@@ -98,8 +122,8 @@ const StickyNotes = () => {
         statusFilter={statusFilter}
         setStatusFilter={setStatusFilter}
         onAddNote={handleAddNote}
-        onMinimize={() => window.minimize()}
-        onClose={() => window.close()}
+        onMinimize={handleToggleMini}
+        onClose={() => window.electron.close()}
       />
 
       <FilterBar 
@@ -126,13 +150,6 @@ const StickyNotes = () => {
             <p className="text-gray-400">No notes found matching your search.</p>
           </div>
         )}
-      </div>
-
-      {/* Footer */}
-      <div className="p-1 px-6 border-t border-gray-100 flex justify-end items-center bg-white">
-        <p className="text-theme-sm font-medium text-gray-900">
-          {filteredNotes.length} records
-        </p>
       </div>
 
       {isEditorOpen && (

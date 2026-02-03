@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu } from 'electron';
+import { app, BrowserWindow, Menu, ipcMain, screen } from 'electron';
 import path from 'node:path';
 import fs from 'node:fs';
 import started from 'electron-squirrel-startup';
@@ -29,6 +29,8 @@ const saveWindowState = (window) => {
   if (!window || window.isDestroyed()) return;
   try {
     const bounds = window.getBounds();
+    // Don't save if in mini mode (approx 64x64)
+    if (bounds.width <= 100 || bounds.height <= 100) return;
     fs.writeFileSync(WINDOW_STATE_PATH, JSON.stringify(bounds));
   } catch (err) {
     console.error('Failed to save window state:', err);
@@ -101,6 +103,53 @@ app.on('window-all-closed', () => {
 
 app.on('before-quit', () => {
   saveWindowState(mainWindow);
+});
+
+// IPC Handlers
+ipcMain.on('window-minimize', () => {
+  if (mainWindow) mainWindow.minimize();
+});
+
+ipcMain.on('window-close', () => {
+  if (mainWindow) mainWindow.close();
+});
+
+ipcMain.on('window-toggle-mini', (event, isMini) => {
+  if (!mainWindow) return;
+  if (isMini) {
+    const currentDisplay = screen.getDisplayMatching(mainWindow.getBounds());
+    const { x: displayX, y: displayY, width: displayWidth, height: displayHeight } = currentDisplay.workArea;
+    
+    const miniWidth = 32;
+    const miniHeight = 64;
+    
+    // Position at the right edge of the CURRENT display, vertically centered
+    const x = displayX + displayWidth - miniWidth;
+    const y = displayY + Math.floor((displayHeight - miniHeight) / 2);
+
+    mainWindow.setResizable(true);
+    mainWindow.setBounds({ 
+      x, 
+      y, 
+      width: miniWidth, 
+      height: miniHeight 
+    }, true);
+    mainWindow.setAlwaysOnTop(true, 'screen-saver');
+    mainWindow.setResizable(false);
+  } else {
+    mainWindow.setResizable(true);
+    mainWindow.setSize(430, 500, true);
+    
+    // Restore from saved state or center
+    const windowState = loadWindowState();
+    if (windowState.x !== undefined && windowState.y !== undefined) {
+      mainWindow.setPosition(windowState.x, windowState.y, true);
+    } else {
+      mainWindow.center();
+    }
+    
+    mainWindow.setAlwaysOnTop(false);
+  }
 });
 
 // In this file you can include the rest of your app's specific main process
