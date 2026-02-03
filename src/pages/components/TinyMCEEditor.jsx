@@ -3,13 +3,19 @@ import React, { useEffect, useRef, useState } from 'react';
 const TinyMCEEditor = ({ value, onChange, onSave }) => {
   const textareaRef = useRef(null);
   const editorRef = useRef(null);
-  const valueRef = useRef(value);
   const [isReady, setIsReady] = useState(false);
-
-  // Keep valueRef in sync with prop for non-looping comparison
+  
+  // Use refs for handlers to avoid closure issues in TinyMCE event listeners
+  const onChangeRef = useRef(onChange);
+  const onSaveRef = useRef(onSave);
+  
   useEffect(() => {
-    valueRef.current = value;
-  }, [value]);
+    onChangeRef.current = onChange;
+  }, [onChange]);
+  
+  useEffect(() => {
+    onSaveRef.current = onSave;
+  }, [onSave]);
 
   useEffect(() => {
     let editorInstance = null;
@@ -34,10 +40,6 @@ const TinyMCEEditor = ({ value, onChange, onSave }) => {
             margin: 0;
             background: white;
           }
-          /* Prevent internal focus borders */
-          .mce-content-body:focus-within {
-             outline: none !important;
-          }
         `,
         setup: (editor) => {
           editorInstance = editor;
@@ -45,38 +47,25 @@ const TinyMCEEditor = ({ value, onChange, onSave }) => {
           
           editor.on('init', () => {
              setIsReady(true);
-             // More stable than initialValue for dynamic loading
-             if (valueRef.current) {
-               try {
-                 editor.setContent(valueRef.current);
-               } catch (e) {
-                 console.warn('TinyMCE init setContent failed:', e);
-               }
+             if (value) {
+                editor.setContent(value);
              }
           });
 
           editor.on('Change KeyUp input', () => {
-             try {
-               const content = editor.getContent();
-               if (content !== valueRef.current) {
-                  valueRef.current = content;
-                  onChange(content);
-               }
-             } catch (e) {
-               // Silently catch serialization errors during rapid typing/teardown
+             const content = editor.getContent();
+             if (onChangeRef.current) {
+                onChangeRef.current(content);
              }
           });
 
           editor.ui.registry.addButton('customSave', {
             text: 'Save',
             onAction: function () {
-              try {
-                const currentContent = editor.getContent();
-                onChange(currentContent);
-                onSave(currentContent);
-              } catch (e) {
-                onSave(); // Fallback if content retrieval fails
-              }
+              const currentContent = editor.getContent();
+              // Force update parents before calling save
+              if (onChangeRef.current) onChangeRef.current(currentContent);
+              if (onSaveRef.current) onSaveRef.current(currentContent);
             }
           });
         },
@@ -90,19 +79,14 @@ const TinyMCEEditor = ({ value, onChange, onSave }) => {
         setIsReady(false);
       }
     };
-  }, []); // Mount/Unmount only
+  }, []); // Only mount/unmount
 
-  // Sync external changes (e.g. note switching)
+  // External updates to value (e.g. initial load or undo/redo)
   useEffect(() => {
     if (isReady && editorRef.current) {
-      try {
-        const currentContent = editorRef.current.getContent();
-        if (value !== currentContent) {
-          editorRef.current.setContent(value || '');
-          valueRef.current = value;
-        }
-      } catch (e) {
-        // Safe skip if editor is in inconsistent state
+      const currentContent = editorRef.current.getContent();
+      if (value !== currentContent) {
+        editorRef.current.setContent(value || '');
       }
     }
   }, [value, isReady]);
